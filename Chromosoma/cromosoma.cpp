@@ -56,7 +56,7 @@ static std::default_random_engine generador(time(NULL));
     //METODOOOOS
 
     void cromosoma::mutacionInsersion(cromosoma &crom, float porMuta){
-        std::uniform_int_distribution<int> pos(0,this->tamCuadrado);
+        std::uniform_int_distribution<int> pos(0,this->tamCuadrado*this->tamCuadrado);
         int pos1=pos(generador);
         int pos2=pos(generador);
         while (pos2==pos1)
