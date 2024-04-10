@@ -1,4 +1,4 @@
-#include "cromosoma.cpp"
+/* #include "cromosoma.cpp"
 
 
 
@@ -37,4 +37,4 @@ int main(int argc, char const *argv[])
     std::cout<<" Suma diag: "<<diag;
 
     return 0;
-}
+} */
