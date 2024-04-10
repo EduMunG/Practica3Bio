@@ -72,8 +72,16 @@ static std::default_random_engine generador(time(NULL));
 
 
 
-    //METODOOOOS
-
+    
+    /////////////////////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////METODOS/////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////////////////////////////
     void cromosoma::mutacionInsersion(){
         std::uniform_int_distribution<int> pos(0,this->tamCuadrado);
         int pos1=pos(generador);
@@ -85,10 +93,7 @@ static std::default_random_engine generador(time(NULL));
         while (pos1==2)
             pos1=pos(generador);
         
-        
-        std::cout<<std::endl<<pos1;
-        std::cout<<std::endl<<pos2;
-        
+        std::cout<<"Indices a cambiar: "<<pos1<<" y: "<<pos2<<std::endl;
         if (pos1<pos2){
             while (pos2!=pos1)
             {
@@ -98,7 +103,6 @@ static std::default_random_engine generador(time(NULL));
                 pos2--;
                 setvectorSumaEnPos(valor2,pos2);
             }
-            
         }else{
             while (pos2!=pos1)
             {
@@ -121,7 +125,7 @@ static std::default_random_engine generador(time(NULL));
         while (pos2==pos1)
             pos2=pos(generador);
         while (pos1==2)
-            pos1=pos(generador);
+            pos1=pos(generador);     
         std::cout<<std::endl<<pos1;
         std::cout<<std::endl<<pos2;
         
@@ -130,7 +134,9 @@ static std::default_random_engine generador(time(NULL));
         valor2=getVectorSuma().at(pos2);
         aux=valor1;
         valor1=valor2;
+        setvectorSumaEnPos(valor1,pos1);
         valor2=aux;
+        setvectorSumaEnPos(valor2,pos2);
     }
 
 
@@ -138,10 +144,13 @@ static std::default_random_engine generador(time(NULL));
 
     std::ostream& operator<< (std::ostream& os, const cromosoma& crom){
         
-        os<<std::endl<<"Tamano Cuadrado: "<<crom.tamCuadrado<<" Numero Magico: "<<crom.numMagico<<std::endl<<"[";
+        os<<std::endl<<"Tamano Cuadrado: "<<crom.tamCuadrado;
+        os<<" Numero Magico: "<<crom.numMagico;
+        os<<" Tamano Vector: "<<crom.vectorSuma.size()<<std::endl<<"[";
+
         for (int i : crom.vectorSuma)
         {
-            std::cout<<i<<",";
+            std::cout<<i<<" ";
         }
         os<<"]"<<std::endl;
         return os;
@@ -175,12 +184,44 @@ static std::default_random_engine generador(time(NULL));
                 num=n(generador);
             anadirvectorSuma(num);
             generados.push_back(num);
-        } while ( getVectorSuma().size() < this->tamCuadrado*this->tamCuadrado-1);
+        } while ( getVectorSuma().size() < this->tamCuadrado*this->tamCuadrado);
     }
 
 
 
-    void cromosoma::nmMagico(int tamCuadrado){
+    int cromosoma::nmMagico(int tamCuadrado){
         float num = tamCuadrado*(tamCuadrado*tamCuadrado+1)/2;
         setNumMagico(num);
+        return num;
     }
+
+
+
+        //Metodo de suma de filas
+        std::vector<int> cromosoma::sumaFilas(){
+            std::vector<int> col(tamCuadrado,0);
+            int index=0;
+            for (int i = 0; i < this->tamCuadrado; i++){
+                for (int j = 0; j < this->tamCuadrado ; j++){
+                    col.at(i)+=vectorSuma.at(index++);
+                }   
+            }
+            return col;
+        }
+        //Metodo de suma de columnas 
+        std::vector<int> cromosoma::sumaColumnas(){
+            std::vector<int> col(tamCuadrado,0);
+            for (int i = 0; i < this->tamCuadrado; i++){
+                for (int j = i; j < vectorSuma.size() ; j+=tamCuadrado){
+                    col.at(i)+=vectorSuma.at(j);
+                }   
+            }
+            return col;
+        }
+        //Metodo de suma de diagonales
+        int cromosoma::sumaDiagonales(){
+            int diag=0;
+            for (int j = 0; j < vectorSuma.size() ; j+=tamCuadrado+1)
+                diag+=vectorSuma.at(j);            
+        return diag;
+        }

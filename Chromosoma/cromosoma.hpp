@@ -38,7 +38,14 @@ class cromosoma{
         //Metodo para la mutacion por desplazamiento
         void mutacionIntercambio();
         //Metodo para Calcular el numero magico
-        void nmMagico(int tamCuadrado);
+        int nmMagico(int tamCuadrado);
+        //Metodo de suma de filas
+        std::vector<int> sumaFilas(void);
+        //Metodo de suma de columnas 
+        std::vector<int> sumaColumnas(void);
+        //Metodo de suma de diagonales
+        int sumaDiagonales(void);
+
         //Metodo para la sobrecarga del operador <<
         friend std::ostream& operator<< (std::ostream& os, const cromosoma& crom);
 
