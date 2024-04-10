@@ -5,6 +5,9 @@ class cromosoma{
     private:
         std::vector<int> vectorSuma; //Vector en el cual se pondran los numeros del 1 al n^2
         int tamCuadrado;
+        //Metodo que genera aleatoriamente el vector
+        void generacionAleatoria(int tamCuadrados);
+        float numMagico;
     public:
     //Constructor por defecto
         cromosoma(void);
@@ -23,17 +26,21 @@ class cromosoma{
         void anadirvectorSuma(int entero);
         void setvectorSumaEnPos(int entero, int pos);
         void setTamCuadrado(int tamCuadrado);
+        void setNumMagico(float numMagico);
 
 
         //GEtters
         std::vector<int> getVectorSuma(void);
         int getTamCuadrado(void);
-
+        float getNumMagico(void);
 
         //Metodo que define la mutacion por insersion
-        void mutacionInsersion(cromosoma &crom, float porcMuta);
+        void mutacionInsersion();
         //Metodo para la mutacion por desplazamiento
-        void mutacionDesplazamiento(cromosoma &crom, float porcMuta);
+        void mutacionIntercambio();
+        //Metodo para Calcular el numero magico
+        void nmMagico(int tamCuadrado);
         //Metodo para la sobrecarga del operador <<
-        friend std::ostream operator<< (std::ostream& os, const cromosoma& crom);
+        friend std::ostream& operator<< (std::ostream& os, const cromosoma& crom);
+
 };
