@@ -152,6 +152,19 @@ static std::default_random_engine generador(time(NULL));
 
 
 
+    bool encontrado(std::vector<int>& visitados, int num){
+
+        std::vector<int>::iterator it= visitados.begin();
+
+        while (it!=visitados.end())
+        {
+            if ( (*it) == num  )
+                return true; 
+            it++;
+        }
+        return false;
+    }
+
     void cromosoma::generacionAleatoria(int tamCuadrados){
         std::vector<int> generados;
         static std::uniform_int_distribution<int> n(1,this->tamCuadrado*this->tamCuadrado);
@@ -161,16 +174,10 @@ static std::default_random_engine generador(time(NULL));
 
         do
         {
-            while (num==generados.)
+            while (encontrado(generados,num))
                 num=n(generador);
             anadirvectorSuma(num);
             generados.push_back(num);
-            for (int i : generados)
-            {
-                std::cout<<" "<<i;
-            }
-            std::cout<<std::endl;
-            
         } while ( getVectorSuma().size() < this->tamCuadrado*this->tamCuadrado-1);
     }
 
@@ -179,11 +186,4 @@ static std::default_random_engine generador(time(NULL));
     void cromosoma::nmMagico(int tamCuadrado){
         float num = tamCuadrado*(tamCuadrado*tamCuadrado+1)/2;
         setNumMagico(num);
-    }
-
-
-    bool encontrado(std::vector<int>& visitados, int num){
-
-        
-
     }
