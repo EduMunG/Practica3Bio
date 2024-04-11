@@ -92,7 +92,7 @@ int seleccionTorneoBinario(std::vector<individuo> &poblacion, std::vector<int> &
     enfrentados.push_back(indice1);
     enfrentados.push_back(indice2);
 
-    std::cout << "\nEnfrentamientos " << indice1 + 1 << " vs " << indice2 + 1;
+    std::cout << "\nEnfrentamiento " << indice1 + 1 << " vs " << indice2 + 1;
 
     if (opcion == 1)
     {
@@ -121,18 +121,18 @@ int main() {
     std::vector<int> aptitudes;
     std::vector<int> enfrentados;
 
-    std::cout << "Ingrese el numero de poblaciones que desea generar: ";
+    std::cout << "\nIngrese el numero de poblaciones que desea generar: ";
     std::cin >> numPoblaciones;
     std::cout << "Ingrese el tamano del cuadrado para la poblacion: ";
     std::cin >> tamCuadrado;
 
-    std::cout << "\nMenu\nCuadrado Magico por:\n1.Maximizar.\n2.Minimizar.\nSeleccione una opcion: ";
+    std::cout << "\nMenu\nCuadrado Magico por:\n1. Maximizar.\n2. Minimizar.\nSeleccione una opcion: ";
     std::cin >> opcion;
 
     switch (opcion)
     {
     case 1:
-             std::cout << "\n1.Maximizar.\n";
+             std::cout << "\n1. Maximizar.\n";
             // Generar población
             for (int i = 0; i < numPoblaciones; i++) {
                 individuo miPoblacion(tamCuadrado);
@@ -150,7 +150,7 @@ int main() {
             }
         break;
     case 2:
-            std::cout<<"\n2.Minimizar.\n";
+            std::cout<<"\n2. Minimizar.\n";
             // Generar población
             for (int i = 0; i < numPoblaciones; i++) {
                 individuo miPoblacion(tamCuadrado);
