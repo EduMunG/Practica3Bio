@@ -3,7 +3,6 @@
 #include <random>
 
 static std::default_random_engine generador(time(NULL));
-
 //Constructores
 
 
@@ -28,9 +27,7 @@ static std::default_random_engine generador(time(NULL));
         vectorSuma.clear();
     }
     /* 
-        SETTERS    
-     
-     
+        SETTERS         
     */
    
     void cromosoma::setvectorSuma(std::vector<int> vectorSuma){
