@@ -25,9 +25,9 @@ class individuo
         void cruza(individuo uno, individuo dos);
 
         //Metodo para la minimizacion
-        bool func1(std::vector<int>,std::vector<int>,int);
+        int func1(std::vector<int>,std::vector<int>,int);
         //Metodo de minimizacion
-        bool func2(std::vector<int>,std::vector<int>,int);
+        int func2(std::vector<int>,std::vector<int>,int);
 
         friend std::ostream& operator<<(std::ostream& os, individuo indi);
 };
