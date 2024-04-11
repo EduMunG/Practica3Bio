@@ -146,8 +146,7 @@ int main() {
             for (int i = 0; i < numPoblaciones / 2; ++i) {
                 int indicePadre1 = seleccionTorneoBinario(poblacion, aptitudes, enfrentados,opcion);
 
-                std::cout << "\nPadre "<< i + 1 <<" seleccionado:" << std::endl;
-                std::cout << "Poblacion Seleccionada: " << indicePadre1 + 1 << std::endl;
+                std::cout << "\nPadre "<< i + 1 <<" seleccionado: " << indicePadre1 + 1 << std::endl;
             }
         break;
     case 2:
@@ -165,8 +164,7 @@ int main() {
             for (int i = 0; i < numPoblaciones / 2; ++i) {
                 int indicePadre1 = seleccionTorneoBinario(poblacion, aptitudes, enfrentados,opcion);
 
-                std::cout << "\nPadre "<< i + 1 <<" seleccionado:" << std::endl;
-                std::cout << "Poblacion Seleccionada: " << indicePadre1 + 1 << std::endl;
+                std::cout << "\nPadre "<< i + 1 <<" seleccionado: " << indicePadre1 + 1 << std::endl;
             }
         break;
     default:
