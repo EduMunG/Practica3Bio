@@ -71,8 +71,8 @@ int individuo::func2(std::vector<int> fil, std::vector<int> col, int diag)
 
 
 
-int seleccionTorneoBinario(std::vector<individuo> &poblacion, std::vector<int> &aptitudes, std::vector<int> &enfrentados) {
-    
+int seleccionTorneoBinario(std::vector<individuo> &poblacion, std::vector<int> &aptitudes, std::vector<int> &enfrentados, int opcion) {
+
     // Seleccionar dos índices aleatorios diferentes que no estén en el vector de enfrentamientos
     std::random_device rd;
     std::mt19937 gen(rd());
@@ -94,41 +94,88 @@ int seleccionTorneoBinario(std::vector<individuo> &poblacion, std::vector<int> &
 
     std::cout << "\nEnfrentamientos " << indice1 + 1 << " vs " << indice2 + 1;
 
-    // Comparar las aptitudes de los dos individuos seleccionados
-    if (aptitudes[indice1] > aptitudes[indice2]) {
-        return indice1;
-    } else {
-        return indice2;
+    if (opcion == 1)
+    {
+        if (aptitudes[indice1] > aptitudes[indice2]) return indice1;
+        else 
+            return indice2;
+            
     }
+    else{
+         if (aptitudes[indice1] < aptitudes[indice2]) return indice1;
+        else 
+            return indice2;
+    }
+    
 }
 
+
+
 int main() {
-    int numPoblaciones, tamCuadrado, aptitud;
+    
+    // Variables
+    int numPoblaciones, tamCuadrado, aptitud,opcion;
+
+    // Vectores 
+    std::vector<individuo> poblacion;
+    std::vector<int> aptitudes;
+    std::vector<int> enfrentados;
+
     std::cout << "Ingrese el numero de poblaciones que desea generar: ";
     std::cin >> numPoblaciones;
     std::cout << "Ingrese el tamano del cuadrado para la poblacion: ";
     std::cin >> tamCuadrado;
 
-    std::vector<individuo> poblacion;
-    std::vector<int> aptitudes;
-    std::vector<int> enfrentados;
+    std::cout << "\nMenu\nCuadrado Magico por:\n1.Maximizar.\n2.Minimizar.\nSeleccione una opcion: ";
+    std::cin >> opcion;
 
-    // Generar población
-    for (int i = 0; i < numPoblaciones; i++) {
-        individuo miPoblacion(tamCuadrado);
-        poblacion.push_back(miPoblacion);
-        aptitud = miPoblacion.func1(miPoblacion.cromosomas.sumaFilas(), miPoblacion.cromosomas.sumaColumnas(), miPoblacion.cromosomas.sumaDiagonales());
-        aptitudes.push_back(aptitud);
-        std::cout << "Aptitud de la poblacion evaluada en la Funcion 2(Maximizar) " << i + 1 << ": " << aptitud << std::endl;
+    switch (opcion)
+    {
+    case 1:
+             std::cout << "\n1.Maximizar.\n";
+            // Generar población
+            for (int i = 0; i < numPoblaciones; i++) {
+                individuo miPoblacion(tamCuadrado);
+                poblacion.push_back(miPoblacion);
+                aptitud = miPoblacion.func1(miPoblacion.cromosomas.sumaFilas(), miPoblacion.cromosomas.sumaColumnas(), miPoblacion.cromosomas.sumaDiagonales());
+                aptitudes.push_back(aptitud);
+                std::cout << "Aptitud de la poblacion " << i + 1 << ": " << aptitud << std::endl;
+            }
+
+            // Realizar múltiples selecciones por torneo binario
+            for (int i = 0; i < numPoblaciones / 2; ++i) {
+                int indicePadre1 = seleccionTorneoBinario(poblacion, aptitudes, enfrentados,opcion);
+
+                std::cout << "\nPadre "<< i + 1 <<" seleccionado:" << std::endl;
+                std::cout << "Poblacion Seleccionada: " << indicePadre1 + 1 << std::endl;
+            }
+        break;
+    case 2:
+            std::cout<<"\n2.Minimizar.\n";
+            // Generar población
+            for (int i = 0; i < numPoblaciones; i++) {
+                individuo miPoblacion(tamCuadrado);
+                poblacion.push_back(miPoblacion);
+                aptitud = miPoblacion.func2(miPoblacion.cromosomas.sumaFilas(), miPoblacion.cromosomas.sumaColumnas(), miPoblacion.cromosomas.sumaDiagonales());
+                aptitudes.push_back(aptitud);
+                std::cout << "Aptitud de la poblacion " << i + 1 << ": " << aptitud << std::endl;
+            }
+
+            // Realizar múltiples selecciones por torneo binario
+            for (int i = 0; i < numPoblaciones / 2; ++i) {
+                int indicePadre1 = seleccionTorneoBinario(poblacion, aptitudes, enfrentados,opcion);
+
+                std::cout << "\nPadre "<< i + 1 <<" seleccionado:" << std::endl;
+                std::cout << "Poblacion Seleccionada: " << indicePadre1 + 1 << std::endl;
+            }
+        break;
+    default:
+        break;
     }
 
-    // Realizar múltiples selecciones por torneo binario
-    for (int i = 0; i < numPoblaciones / 2; ++i) {
-        int indicePadre1 = seleccionTorneoBinario(poblacion, aptitudes, enfrentados);
+    
 
-        std::cout << "\nPadre "<< i + 1 <<" seleccionado:" << std::endl;
-        std::cout << "Poblacion: " << indicePadre1 + 1 << std::endl;
-    }
+    
 
     return 0;
 }
