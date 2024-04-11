@@ -3,7 +3,6 @@
 #include <random>
 
 static std::default_random_engine generador(time(NULL));
-
 //Constructores
 
 
@@ -28,9 +27,7 @@ static std::default_random_engine generador(time(NULL));
         vectorSuma.clear();
     }
     /* 
-        SETTERS    
-     
-     
+        SETTERS         
     */
    
     void cromosoma::setvectorSuma(std::vector<int> vectorSuma){
@@ -154,8 +151,18 @@ static std::default_random_engine generador(time(NULL));
         for (int i : crom.vectorSuma)
         {
             std::cout<<i<<" ";
+        os<<" Tamano Vector: "<<crom.vectorSuma.size()<<std::endl;
+        int indices=0;
+        for (int i = 0; i < crom.vectorSuma.size(); i+=crom.tamCuadrado)
+        {
+            os<<std::endl<<"[ ";
+            for (int j = 0; j < crom.tamCuadrado;j++ )
+            {
+                os<<crom.vectorSuma.at(indices++)<<" ";
+            }
+            os<<"]";
         }
-        os<<"]"<<std::endl;
+    
         return os;
     }
 
