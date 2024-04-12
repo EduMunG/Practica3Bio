@@ -11,12 +11,12 @@ class individuo
     private:
         
         cromosoma cromosomas;
-        int tamCuadrado;
         int aptitud;
 
     public:
 
         individuo(int tamCuadrado); 
+        individuo(); 
     
         ~individuo();
 
@@ -24,7 +24,6 @@ class individuo
         //SETTERS
 
         void setCromosoma(cromosoma cromosoma);
-        void setTamCuadrado(int tamCuadrado);
         void setAptitud(int aptitud);
 
 
@@ -38,11 +37,10 @@ class individuo
 
 
         //Metodos para la seleccion de los padres
-        int seleccionTorneoBinario(std::vector<int> &enfrentados, std::vector<individuo>& poblacion);
+        int seleccionTorneoBinario(std::vector<int> &enfrentados, std::vector<individuo>& poblacion,int opcion);
 
-        //Metodo para la cruza entre los padres
-        void cruza(std::vector<individuo> &poblacion);
-        void cruza_cx(std::vector<individuo> &poblacion);
+
+
 
 
         //Metodo para la minimizacion

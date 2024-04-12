@@ -11,9 +11,11 @@ static std::default_random_engine generador(time(NULL));
     tamCuadrado(),
     numMagico(){}
 
-    cromosoma::cromosoma(std::vector<int> vectorSuma, int tamCuadrado):
-    vectorSuma(vectorSuma),
-    tamCuadrado(tamCuadrado){}
+    cromosoma::cromosoma(std::vector<int> vectorSuma, int tamCuadrado){        
+        this->vectorSuma=vectorSuma;
+        setTamCuadrado(tamCuadrado);
+        nmMagico(tamCuadrado);
+    }
 
     cromosoma::cromosoma(int tamCuadrado){
         setTamCuadrado(tamCuadrado);
@@ -148,6 +150,7 @@ static std::default_random_engine generador(time(NULL));
         os<<" Numero Magico: "<<crom.numMagico;
         os<<" Tamano Vector: "<<crom.vectorSuma.size()<<std::endl;
         int indices=0;
+
         for (int i = 0; i < crom.vectorSuma.size(); i+=crom.tamCuadrado)
         {
             os<<std::endl<<"[ ";
