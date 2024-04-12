@@ -3,12 +3,6 @@
 
 void mutar(std::vector<individuo> &poblacion, float probabilidadMutacion) {
     std::uniform_real_distribution<double> chance(0.0, 1.0);
-/*     for (auto& ind : poblacion) {
-        if (chance(gen) < probabilidadMutacion) {
-            ind.getCromosoma().mutacionInsersion();
-        }
-    }
- */
     for (int i = 0; i < poblacion.size(); i++)
     {
         if (chance(gen)<probabilidadMutacion)
@@ -151,7 +145,7 @@ void cruzaPMX(std::vector<individuo> &poblacion) {
         poblacion.push_back(hijo); // Anadimos los hijos  */
     poblacion.clear();
     poblacion=hijos;
-     std::cout << std::endl << "-----------------------------------------" << std::endl;
+    std::cout << std::endl << "-----------------------------------------" << std::endl;
     std::cout << "Tamano de la nueva poblacion " << poblacion.size() << std::endl;
     std::cout << "-----------------------------------------" << std::endl;
 }
@@ -229,28 +223,9 @@ int main() {
     std::vector<int> numExitos;
     while (generacion < 10) {
         seleccionarPadres(poblacion, numPoblaciones);
-        for (int i = 0; i < poblacion.size(); i++)
-        {
-            int nuevaAptitud = poblacion.at(i).func1(poblacion.at(i).getCromosoma().sumaFilas(), poblacion.at(i).getCromosoma().sumaColumnas(), poblacion.at(i).getCromosoma().sumaDiagonales());
-            std::cout << "Aptitud cambiada de " << poblacion.at(i).getAptitud() << " a " << nuevaAptitud << std::endl;
-            poblacion.at(i).setAptitud(nuevaAptitud);
-        }
         
         cruzaPMX(poblacion);
-        for (int i = 0; i < poblacion.size(); i++)
-        {
-            int nuevaAptitud = poblacion.at(i).func1(poblacion.at(i).getCromosoma().sumaFilas(), poblacion.at(i).getCromosoma().sumaColumnas(), poblacion.at(i).getCromosoma().sumaDiagonales());
-            std::cout << "Aptitud cambiada de " << poblacion.at(i).getAptitud() << " a " << nuevaAptitud << std::endl;
-            poblacion.at(i).setAptitud(nuevaAptitud);
-        }
-        
         mutar(poblacion, 0.6);
-        for (int i = 0; i < poblacion.size(); i++)
-        {
-            int nuevaAptitud = poblacion.at(i).func1(poblacion.at(i).getCromosoma().sumaFilas(), poblacion.at(i).getCromosoma().sumaColumnas(), poblacion.at(i).getCromosoma().sumaDiagonales());
-            std::cout << "Aptitud cambiada de " << poblacion.at(i).getAptitud() << " a " << nuevaAptitud << std::endl;
-            poblacion.at(i).setAptitud(nuevaAptitud);
-        }
         
         
         numExitos.clear();

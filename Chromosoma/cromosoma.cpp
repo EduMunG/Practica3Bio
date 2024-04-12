@@ -96,6 +96,8 @@ void cromosoma::mutacionInsersion() {
 
     if (pos1 != pos2) {
         // Extraer el valor en pos2
+        std::cout << "pos1: " << pos1 << ", pos2: " << pos2 << std::endl;
+
         int valor = getVectorSuma().at(pos2);
 
         // Desplazar todos los elementos desde pos2 hasta pos1+1 hacia la derecha
