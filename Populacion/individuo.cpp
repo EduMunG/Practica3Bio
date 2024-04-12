@@ -56,19 +56,23 @@ individuo::~individuo()
 int individuo::func1(std::vector<int> fil, std::vector<int> col, int diag)
 {
 
-    int numExitos;
+    int numExitos = 0;
     int numMagico = this->cromosomas.getNumMagico();;
    
+
     for (int i = 0; i < tamCuadrado; i++)
     {
         if (fil.at(i) == numMagico)
             numExitos++;
+        
         if (col.at(i) == numMagico)
             numExitos++;
+        
     }
 
-    if (diag == numMagico)
+    if(diag == numMagico)
         numExitos++;
+    
 
     return numExitos;
 }
@@ -77,7 +81,7 @@ int individuo::func1(std::vector<int> fil, std::vector<int> col, int diag)
 int individuo::func2(std::vector<int> fil, std::vector<int> col, int diag)
 {
 
-    int numExitos;
+    int numExitos = 0;
     int sumafil = 0;
     int sumcol = 0;
     for (int i : fil) {sumafil += abs(this->cromosomas.getNumMagico() - i);}
@@ -91,6 +95,7 @@ int individuo::func2(std::vector<int> fil, std::vector<int> col, int diag)
 
 // Implemntacion cruza
 void individuo::cruza(std::vector<individuo> &poblacion){
+
     //Para escoger las distancias (escoger el segmento)
     std::uniform_int_distribution<int> dist(0, poblacion.size() - 1);
     //PAra guardar los hijos
@@ -110,9 +115,10 @@ void individuo::cruza(std::vector<individuo> &poblacion){
     std::vector<int> seccion2;
 
 
-
-
 }
+
+
+
 
 void seleccionarPadres(std::vector<individuo>& poblacion, int numPoblaciones) {
     std::vector<individuo> nuevosPadres;
@@ -172,6 +178,7 @@ int individuo::seleccionTorneoBinario(std::vector<int> &enfrentados, std::vector
 
     }
 
+
 int main() {
     int numPoblaciones, tamCuadrado;
     std::cout << "Ingrese el numero de poblaciones que desea generar: ";
@@ -181,30 +188,21 @@ int main() {
 
     std::vector<individuo> poblacion;
 
-    // Generar población
+    // Generar población inicial
     for (int i = 0; i < numPoblaciones; i++) {
-        //individuo miPoblacion(tamCuadrado);
         poblacion.push_back(*new individuo(tamCuadrado));
-        //poblacion.at(i).aptitud=poblacion.at(i).func1(poblacion.at(i).cromosomas.sumaFilas(), poblacion.at(i).cromosomas.sumaColumnas(), poblacion.at(i).cromosomas.sumaDiagonales());
-        poblacion.at(i).setAptitud( poblacion.at(i).func1( poblacion.at(i).getCromosoma().sumaFilas(), poblacion.at(i).getCromosoma().sumaColumnas(),poblacion.at(i).getCromosoma().sumaDiagonales()) );
-        // aptitud = poblacion.at(i).func1(poblacion.at(i).cromosomas.sumaFilas(), poblacion.at(i).cromosomas.sumaColumnas(), poblacion.at(i).cromosomas.sumaDiagonales());
-        std::cout << "\nAptitud de la poblacion evaluada en la Funcion 2 (Maximizar) " << i + 1 << ": " << poblacion.at(i).getAptitud() << std::endl;
+        poblacion.at(i).setAptitud(poblacion.at(i).func1(poblacion.at(i).getCromosoma().sumaFilas(), poblacion.at(i).getCromosoma().sumaColumnas(), poblacion.at(i).getCromosoma().sumaDiagonales()));
+        std::cout << "\nAptitud de la poblacion evaluada en la Funcion 1 (Maximizar) " << i + 1 << ": " << poblacion.at(i).getAptitud() << std::endl;
     }
 
-        std::cout << std::endl << "-----------------------------------------"<< std::endl;
-        std::cout << "Tamano de la poblacion inicial: "<< poblacion.size();
-        std::cout << std::endl << "-----------------------------------------"<< std::endl;
+    std::cout << std::endl << "-----------------------------------------" << std::endl;
+    std::cout << "Tamano de la poblacion inicial: " << poblacion.size();
+    std::cout << std::endl << "-----------------------------------------" << std::endl;
 
     // Realizar múltiples selecciones por torneo binario
-    seleccionarPadres(poblacion,numPoblaciones);
+    seleccionarPadres(poblacion, numPoblaciones);
+
+    
+
     return 0;
 }
-
-
-
-// while (exitosGeneral!=numexitos)
-//     {
-
-//         torneobinario(miPoblacion.func1(miPoblacion.cromosomas.sumaFilas(),miPoblacion.cromosomas.sumaColumnas(),miPoblacion.cromosomas.sumaDiagonales())
-
-//     }

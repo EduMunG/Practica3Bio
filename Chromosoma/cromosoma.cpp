@@ -146,11 +146,6 @@ static std::default_random_engine generador(time(NULL));
         
         os<<std::endl<<"Tamano Cuadrado: "<<crom.tamCuadrado;
         os<<" Numero Magico: "<<crom.numMagico;
-        os<<" Tamano Vector: "<<crom.vectorSuma.size()<<std::endl<<"[";
-
-        for (int i : crom.vectorSuma)
-        {
-            std::cout<<i<<" ";
         os<<" Tamano Vector: "<<crom.vectorSuma.size()<<std::endl;
         int indices=0;
         for (int i = 0; i < crom.vectorSuma.size(); i+=crom.tamCuadrado)
