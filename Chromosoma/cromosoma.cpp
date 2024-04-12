@@ -84,39 +84,31 @@ static std::default_random_engine generador(time(NULL));
     /////////////////////////////////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////////////////////////////////
-    void cromosoma::mutacionInsersion(){
-        std::uniform_int_distribution<int> pos(0,this->tamCuadrado);
-        int pos1=pos(generador);
-        int pos2=pos(generador);
-        int valor2;
-        int aux;
-        while (pos2==pos1)
-            pos2=pos(generador);
-        while (pos1==2)
-            pos1=pos(generador);
-        
-        std::cout<<"Indices a cambiar: "<<pos1<<" y: "<<pos2<<std::endl;
-        if (pos1<pos2){
-            while (pos2!=pos1)
-            {
-                valor2=getVectorSuma().at(pos2);
-                aux=getVectorSuma().at(pos2-1);
-                setvectorSumaEnPos(aux,pos2);
-                pos2--;
-                setvectorSumaEnPos(valor2,pos2);
-            }
-        }else{
-            while (pos2!=pos1)
-            {
-                valor2=getVectorSuma().at(pos1);
-                aux=getVectorSuma().at(pos1-1);
-                setvectorSumaEnPos(aux,pos1);
-                pos1--;
-                setvectorSumaEnPos(valor2,pos1);
-            }
-            
-        }
+void cromosoma::mutacionInsersion() {
+    std::uniform_int_distribution<int> pos(0, this->tamCuadrado*this->tamCuadrado - 1);
+    int pos1 = pos(generador);
+    int pos2 = pos(generador);
+
+    // Asegurarse que pos1 es menor que pos2
+    if (pos1 > pos2) {
+        std::swap(pos1, pos2);
     }
+
+    if (pos1 != pos2) {
+        // Extraer el valor en pos2
+        int valor = getVectorSuma().at(pos2);
+
+        // Desplazar todos los elementos desde pos2 hasta pos1+1 hacia la derecha
+        for (int i = pos2; i > pos1; --i) {
+            //getVectorSuma()[i] = getVectorSuma()[i - 1];
+            setvectorSumaEnPos( getVectorSuma().at(i-1),i );
+        }
+
+        // Insertar el valor extraído en pos1
+        setvectorSumaEnPos(valor,pos1);
+        //getVectorSuma()[pos1] = valor;
+    }
+}
 
 
     void cromosoma::mutacionIntercambio(){
@@ -128,9 +120,9 @@ static std::default_random_engine generador(time(NULL));
             pos2=pos(generador);
         while (pos1==2)
             pos1=pos(generador);     
-        std::cout<<std::endl<<pos1;
+/*         std::cout<<std::endl<<pos1;
         std::cout<<std::endl<<pos2;
-        
+         */
         //Intercambio
         valor1=getVectorSuma().at(pos1);
         valor2=getVectorSuma().at(pos2);

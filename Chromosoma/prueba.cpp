@@ -1,4 +1,4 @@
-/* #include "cromosoma.cpp"
+#include "cromosoma.cpp"
 
 
 
@@ -7,7 +7,7 @@ int main(int argc, char const *argv[])
     std::vector<int> fil, col;
 
     int diag;
-    cromosoma crom(2);
+    cromosoma crom(3);
 
     std::cout<<crom;
     crom.mutacionInsersion();
@@ -37,4 +37,4 @@ int main(int argc, char const *argv[])
     std::cout<<" Suma diag: "<<diag;
 
     return 0;
-} */
+}
