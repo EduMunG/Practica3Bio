@@ -55,7 +55,7 @@ individuo::~individuo()
     /////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // Metodo maximizacion
-int individuo::func1(std::vector<int> fil, std::vector<int> col, int diag)
+int individuo::func1(std::vector<int> fil, std::vector<int> col, std::vector<int> diag)
 {
 
     int numExitos=0;
@@ -69,24 +69,29 @@ int individuo::func1(std::vector<int> fil, std::vector<int> col, int diag)
             numExitos++;
     }
 
-    if (diag == numMagico)
+    if (diag.at(0) == numMagico)
+        numExitos++;
+    if (diag.at(1) == numMagico)
         numExitos++;
 
     return numExitos;
 }
 
 // Metodo de minimizacion
-int individuo::func2(std::vector<int> fil, std::vector<int> col, int diag)
+int individuo::func2(std::vector<int> fil, std::vector<int> col, std::vector<int> diag)
 {
 
     int numExitos;
     int sumafil = 0;
     int sumcol = 0;
+    int sumadiag1=0, sumadiag2=0;
     for (int i : fil) {sumafil += abs(this->cromosomas.getNumMagico() - i);}
 
     for (int i : col) {sumcol += abs(this->cromosomas.getNumMagico() - i);}
+    sumadiag1=abs(this->cromosomas.getNumMagico()-diag.at(0) );
+    sumadiag2=abs(this->cromosomas.getNumMagico()-diag.at(0) );
 
-    numExitos = sumafil + sumcol + abs(this->cromosomas.getNumMagico() - diag);
+    numExitos = sumafil + sumcol + sumadiag1+ sumadiag2 ;
 
     return numExitos;
 }
@@ -133,12 +138,12 @@ int individuo::seleccionTorneoBinario(std::vector<int> &enfrentados, std::vector
 
 
 
-/*     std::ostream& operator<<(std::ostream& os, individuo indi){
-
+    std::ostream& operator<<(std::ostream& os, individuo indi){
+        os<<"Individuo con aptitud: "<< indi.aptitud <<std::endl<<"Con el cromosoma:"<<std::endl<<indi.cromosomas<<std::endl;
+        return os;
     }
 
 
- */
 
 // while (exitosGeneral!=numexitos)
 //     {

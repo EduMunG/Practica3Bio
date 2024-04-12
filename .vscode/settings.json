@@ -63,6 +63,8 @@
         "system_error": "cpp",
         "type_traits": "cpp",
         "utility": "cpp",
-        "numbers": "cpp"
+        "numbers": "cpp",
+        "__tree": "cpp",
+        "set": "cpp"
     }
 }

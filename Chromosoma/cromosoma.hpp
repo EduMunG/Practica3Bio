@@ -44,7 +44,7 @@ class cromosoma{
         //Metodo de suma de columnas 
         std::vector<int> sumaColumnas(void);
         //Metodo de suma de diagonales
-        int sumaDiagonales(void);
+        std::vector<int> sumaDiagonales(void);
 
         //Metodo para la sobrecarga del operador <<
         friend std::ostream& operator<< (std::ostream& os, const cromosoma& crom);

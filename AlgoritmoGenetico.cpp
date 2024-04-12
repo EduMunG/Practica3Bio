@@ -1,5 +1,5 @@
 #include "./Populacion/individuo.cpp"
-
+#include <climits>
 
 bool encontradosec(std::vector<int>& seccion, int num){
 
@@ -55,8 +55,8 @@ void cruzaPMX(std::vector<individuo> &poblacion) {
     while (itDePoblacion != poblacion.end() - 1) {
         cromosoma cromo1 = itDePoblacion->getCromosoma();
         cromosoma cromo2 = (itDePoblacion + 1)->getCromosoma();
-        std::cout<<"\nCromosoma 1: "<<cromo1;
-        std::cout<<"\nCromosoma 2: "<<cromo2; 
+        //std::cout<<"\nCromosoma 1: "<<cromo1;
+        //std::cout<<"\nCromosoma 2: "<<cromo2; 
  
         std::vector<int> padre1 = cromo1.getVectorSuma();
         std::vector<int> padre2 = cromo2.getVectorSuma();
@@ -126,9 +126,9 @@ void cruzaPMX(std::vector<individuo> &poblacion) {
         // Crear nuevos individuos con los cromosomas cruzados
         individuo nuevoHijo1, nuevoHijo2;
         nuevoHijo1.setCromosoma(cromosoma(hijo1, tamCuad));
-        std::cout<<std::endl<<" Nuevo Hijo: "<<nuevoHijo1.getCromosoma();
+        //std::cout<<std::endl<<" Nuevo Hijo: "<<nuevoHijo1.getCromosoma();
         nuevoHijo2.setCromosoma(cromosoma(hijo2, tamCuad));
-        std::cout<<std::endl<<" Nuevo Hijo: "<<nuevoHijo2.getCromosoma();
+        //std::cout<<std::endl<<" Nuevo Hijo: "<<nuevoHijo2.getCromosoma();
 
 
         // Añadir los hijos a la lista de hijos
@@ -156,11 +156,11 @@ void seleccionarPadres(std::vector<individuo>& poblacion, int numPoblaciones) {
     std::vector<int> enfrentados;
     for (int i = 0; i < numPoblaciones / 2; ++i) {
         int indiceGanador = poblacion.at(i).seleccionTorneoBinario(enfrentados, poblacion);
-        nuevosPadres.push_back(poblacion.at(indiceGanador));
-
         std::cout << "\nPadre " << i <<" seleccionado:" << std::endl;
         std::cout << "Indice: " << indiceGanador  << std::endl;
         std::cout << "Aptitud Ganadora: " << poblacion.at(indiceGanador).getAptitud() << std::endl;
+        if (  poblacion.at(indiceGanador).getAptitud()>2  )
+            nuevosPadres.push_back(poblacion.at(indiceGanador));    
     }
     poblacion=nuevosPadres; // Reemplaza la población antigua con los ganadores
     std::cout << std::endl << "-----------------------------------------"<< std::endl;
@@ -215,7 +215,9 @@ int main() {
     // Realizar múltiples selecciones por torneo binario
 
     int generacion = 0;
+    int solucion=0;
     std::vector<int> numExitos;
+    individuo* individuoSolucionado= nullptr;
     while (generacion <10000) {
 
         if (numPoblaciones<2)
@@ -224,37 +226,40 @@ int main() {
             return 0;
         }
         
-        seleccionarPadres(poblacion, numPoblaciones);
-        numPoblaciones=poblacion.size();
-        
+        seleccionarPadres(poblacion, poblacion.size());
+    
         cruzaPMX(poblacion);
-        numPoblaciones=poblacion.size();
         mutar(poblacion, .8);
-        numPoblaciones=poblacion.size();
         /* 
         mutar(poblacion, 1);
         numPoblaciones=poblacion.size();
         cruzaPMX(poblacion);
         numPoblaciones=poblacion.size(); */
         
-        
+        bool solEncontrada=false;
+        int mejorAptitud = INT_MIN;// Inicializa con el mínimo posible para encontrar el máximo
         numExitos.clear();
-        for (int i = 0; i < poblacion.size(); i++) { 
-            int nuevaAptitud = poblacion.at(i).func1(poblacion.at(i).getCromosoma().sumaFilas(), poblacion.at(i).getCromosoma().sumaColumnas(), poblacion.at(i).getCromosoma().sumaDiagonales());
-            /// std::cout << "Aptitud cambiada de " << poblacion.at(i).getAptitud() << " a " << nuevaAptitud << std::endl;
-            poblacion.at(i).setAptitud( nuevaAptitud );
-            numExitos.push_back(nuevaAptitud);
-        } 
-        if (std::find(numExitos.begin(),numExitos.end(),2*tamCuadrado+1)!=numExitos.end())
+        for(individuo &individuo: poblacion){
+            int nuevaAptitud = individuo.func1(individuo.getCromosoma().sumaFilas(), individuo.getCromosoma().sumaColumnas(),individuo.getCromosoma().sumaDiagonales());
+            individuo.setAptitud(nuevaAptitud);
+
+            if (nuevaAptitud == 2*tamCuadrado+2) {solEncontrada=true;  individuoSolucionado=&individuo;}
+            
+            if (nuevaAptitud> mejorAptitud) {mejorAptitud = nuevaAptitud;}
+
+        }
+
+        if (solEncontrada && individuoSolucionado)
         {
-            std::cout<<"Funcion objetivo encontrada!: "<<std::endl;
-            std::cout << "Generacion " << generacion + 1 << ": Mejor aptitud = " << *std::max_element(numExitos.begin(), numExitos.end()) << std::endl<<"Tam Poblacion: "<<poblacion.size();
+            std::cout << "Función objetivo encontrada!" << std::endl;
+            std::cout << "Generación " << generacion + 1 << ": Mejor aptitud = " << mejorAptitud << std::endl;
+            std::cout << "Detalle del individuo con la solución:" << std::endl;
+            std::cout << *individuoSolucionado;  // Usar el operador sobrecargado para imprimir el individuo
             return 0;
         }
         
-        
-        std::cout << "Generacion " << generacion + 1 << ": Mejor aptitud = " << *std::max_element(numExitos.begin(), numExitos.end()) << std::endl<<"Tam Poblacion: "<<poblacion.size();
-        
+        std::cout << "Generacion " << generacion + 1 << ": Mejor aptitud = " << mejorAptitud << std::endl << "Tam Poblacion: " << poblacion.size() << std::endl;
+
         generacion++;
     }
 

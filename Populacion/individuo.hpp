@@ -44,9 +44,9 @@ class individuo
 
 
         //Metodo para la minimizacion
-        int func1(std::vector<int>,std::vector<int>,int);
+        int func1(std::vector<int>,std::vector<int>,std::vector<int> );
         //Metodo de minimizacion
-        int func2(std::vector<int>,std::vector<int>,int);
+        int func2(std::vector<int>,std::vector<int>,std::vector<int> );
         //Metodo de sobre carga del operador <<
         friend std::ostream& operator<<(std::ostream& os, individuo indi);
 };
