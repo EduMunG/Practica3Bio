@@ -84,39 +84,40 @@ static std::default_random_engine generador(time(NULL));
     /////////////////////////////////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////////////////////////////////
-    void cromosoma::mutacionInsersion(){
-        std::uniform_int_distribution<int> pos(0,this->tamCuadrado);
-        int pos1=pos(generador);
-        int pos2=pos(generador);
-        int valor2;
-        int aux;
-        while (pos2==pos1)
-            pos2=pos(generador);
-        while (pos1==2)
-            pos1=pos(generador);
-        
-        std::cout<<"Indices a cambiar: "<<pos1<<" y: "<<pos2<<std::endl;
-        if (pos1<pos2){
-            while (pos2!=pos1)
-            {
-                valor2=getVectorSuma().at(pos2);
-                aux=getVectorSuma().at(pos2-1);
-                setvectorSumaEnPos(aux,pos2);
-                pos2--;
-                setvectorSumaEnPos(valor2,pos2);
-            }
-        }else{
-            while (pos2!=pos1)
-            {
-                valor2=getVectorSuma().at(pos1);
-                aux=getVectorSuma().at(pos1-1);
-                setvectorSumaEnPos(aux,pos1);
-                pos1--;
-                setvectorSumaEnPos(valor2,pos1);
-            }
-            
-        }
+void cromosoma::mutacionInsersion() {
+    std::uniform_int_distribution<int> pos(0, this->getVectorSuma().size() - 1);
+    int pos1 = pos(generador);
+    int pos2 = pos(generador);
+
+/*     std::cout<<std::endl<<"Valor del cromosoma sin mutar: "<<std::endl;
+    for(int i: this->getVectorSuma())
+        std::cout<<i<<" "; */
+    // Asegurarse que pos1 es menor que pos2
+    if (pos1 > pos2) {
+        std::swap(pos1, pos2);
     }
+
+    if (pos1 != pos2) {
+        // Extraer el valor en pos2
+       // std::cout << "pos1: " << pos1 << ", pos2: " << pos2 << std::endl;
+
+        int valor = this->getVectorSuma().at(pos2);
+
+        // Desplazar todos los elementos desde pos2 hasta pos1+1 hacia la derecha
+        for (int i = pos2; i > pos1; --i) {
+            //getVectorSuma()[i] = getVectorSuma()[i - 1];
+            this->setvectorSumaEnPos( this->getVectorSuma().at(i-1),i );
+        }
+
+        // Insertar el valor extraído en pos1
+        this->setvectorSumaEnPos(valor,pos1);
+        //getVectorSuma()[pos1] = valor;
+    }
+/*     std::cout<<std::endl<<"Valor del cromosoma mutado: "<<std::endl;
+    for(int i: this->getVectorSuma())
+        std::cout<<i<<" "; */
+
+}
 
 
     void cromosoma::mutacionIntercambio(){
@@ -128,9 +129,9 @@ static std::default_random_engine generador(time(NULL));
             pos2=pos(generador);
         while (pos1==2)
             pos1=pos(generador);     
-        std::cout<<std::endl<<pos1;
+/*         std::cout<<std::endl<<pos1;
         std::cout<<std::endl<<pos2;
-        
+         */
         //Intercambio
         valor1=getVectorSuma().at(pos1);
         valor2=getVectorSuma().at(pos2);
@@ -149,6 +150,7 @@ static std::default_random_engine generador(time(NULL));
         os<<std::endl<<"Tamano Cuadrado: "<<crom.tamCuadrado;
         os<<" Numero Magico: "<<crom.numMagico;
         os<<" Tamano Vector: "<<crom.vectorSuma.size()<<std::endl;
+        os<<" Funcion a maximizar o minimizar: "<<2*crom.tamCuadrado+1 <<std::endl;
         int indices=0;
 
         for (int i = 0; i < crom.vectorSuma.size(); i+=crom.tamCuadrado)
@@ -160,7 +162,7 @@ static std::default_random_engine generador(time(NULL));
             }
             os<<"]";
         }
-    
+        os<<std::endl;
         return os;
     }
 
@@ -226,10 +228,18 @@ static std::default_random_engine generador(time(NULL));
             }
             return col;
         }
+
         //Metodo de suma de diagonales
         int cromosoma::sumaDiagonales(){
             int diag=0;
             for (int j = 0; j < vectorSuma.size() ; j+=tamCuadrado+1)
                 diag+=vectorSuma.at(j);            
+        return diag;
+        }
+
+        int cromosoma::sumaDiagonal_inversa(){
+            int diag=0;
+           for (int j = tamCuadrado - 1; j < vectorSuma.size() - 1; j += tamCuadrado - 1)
+                diag += vectorSuma.at(j);  
         return diag;
         }

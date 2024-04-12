@@ -55,10 +55,10 @@ individuo::~individuo()
     /////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // Metodo maximizacion
-int individuo::func1(std::vector<int> fil, std::vector<int> col, int diag)
+int individuo::func1(std::vector<int> fil, std::vector<int> col, int diag,int diag_inv)
 {
 
-    int numExitos;
+    int numExitos=0;
     int numMagico = this->cromosomas.getNumMagico();;
    
     for (int i = 0; i < cromosomas.getTamCuadrado(); i++)
@@ -72,11 +72,14 @@ int individuo::func1(std::vector<int> fil, std::vector<int> col, int diag)
     if (diag == numMagico)
         numExitos++;
 
+    if (diag_inv == numMagico)
+        numExitos++;
+
     return numExitos;
 }
 
 // Metodo de minimizacion
-int individuo::func2(std::vector<int> fil, std::vector<int> col, int diag)
+int individuo::func2(std::vector<int> fil, std::vector<int> col, int diag, int diag_inv)
 {
 
     int numExitos;
@@ -86,7 +89,7 @@ int individuo::func2(std::vector<int> fil, std::vector<int> col, int diag)
 
     for (int i : col) {sumcol += abs(this->cromosomas.getNumMagico() - i);}
 
-    numExitos = sumafil + sumcol + abs(this->cromosomas.getNumMagico() - diag);
+    numExitos = sumafil + sumcol + abs(this->cromosomas.getNumMagico() - diag) + abs(this->cromosomas.getNumMagico() - diag_inv);
 
     return numExitos;
 }
@@ -96,7 +99,7 @@ int individuo::func2(std::vector<int> fil, std::vector<int> col, int diag)
 
 
 
-int individuo::seleccionTorneoBinario(std::vector<int> &enfrentados, std::vector<individuo>& poblacion, int opcion) {
+int individuo::seleccionTorneoBinario(std::vector<int> &enfrentados, std::vector<individuo>& poblacion) {
     
     // Seleccionar dos índices aleatorios diferentes que no estén en el vector de enfrentamientos
 
@@ -117,29 +120,32 @@ int individuo::seleccionTorneoBinario(std::vector<int> &enfrentados, std::vector
     enfrentados.push_back(indice2);
 
     std::cout << "\nEnfrentamientos " << indice1 << " vs " << indice2 ;
+    std::cout << "\nAptitud : " << poblacion.at(indice1).getAptitud() << " vs " << poblacion.at(indice2).getAptitud() ;
 
-    if (opcion == 1)
-    {
-        // Comparar las aptitudes de los dos individuos seleccionados
-        if (poblacion.at(indice1).getAptitud()  > poblacion.at(indice2).getAptitud()) {
-            return indice1;
-        } else {
-            return indice2;
-        }
+    // Comparar las aptitudes de los dos individuos seleccionados
+    if (poblacion.at(indice1).getAptitud()  > poblacion.at(indice2).getAptitud()) {
+        return indice1;
+    } else {
+        return indice2;
     }
-    else
-    {
-        // Comparar las aptitudes de los dos individuos seleccionados
-        if (poblacion.at(indice1).getAptitud()  < poblacion.at(indice2).getAptitud()) {
-            return indice1;
-        } else {
-            return indice2;
-        }
-    }
-    
 }
 
 
 
 
 
+
+
+/*     std::ostream& operator<<(std::ostream& os, individuo indi){
+
+    }
+
+
+ */
+
+// while (exitosGeneral!=numexitos)
+//     {
+
+//         torneobinario(miPoblacion.func1(miPoblacion.cromosomas.sumaFilas(),miPoblacion.cromosomas.sumaColumnas(),miPoblacion.cromosomas.sumaDiagonales())
+
+//     }
