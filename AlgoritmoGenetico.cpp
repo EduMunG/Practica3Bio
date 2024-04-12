@@ -229,12 +229,12 @@ int main() {
         
         
         numExitos.clear();
-/*         for (int i = 0; i < poblacion.size(); i++) { 
+         for (int i = 0; i < poblacion.size(); i++) { 
             int nuevaAptitud = poblacion.at(i).func1(poblacion.at(i).getCromosoma().sumaFilas(), poblacion.at(i).getCromosoma().sumaColumnas(), poblacion.at(i).getCromosoma().sumaDiagonales());
                 std::cout << "Aptitud cambiada de " << poblacion.at(i).getAptitud() << " a " << nuevaAptitud << std::endl;
             poblacion.at(i).setAptitud(nuevaAptitud);
             numExitos.push_back(nuevaAptitud);
-        } */
+        } 
         std::cout << "Generación " << generacion + 1 << ": Mejor aptitud = " << *std::max_element(numExitos.begin(), numExitos.end()) << std::endl<<"Individuo: ";
         
         generacion++;

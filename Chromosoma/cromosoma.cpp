@@ -85,7 +85,7 @@ static std::default_random_engine generador(time(NULL));
     /////////////////////////////////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////////////////////////////////
 void cromosoma::mutacionInsersion() {
-    std::uniform_int_distribution<int> pos(0, this->tamCuadrado*this->tamCuadrado - 1);
+    std::uniform_int_distribution<int> pos(0, getVectorSuma().size() - 1);
     int pos1 = pos(generador);
     int pos2 = pos(generador);
 
