@@ -58,7 +58,7 @@ individuo::~individuo()
 int individuo::func1(std::vector<int> fil, std::vector<int> col, int diag)
 {
 
-    int numExitos;
+    int numExitos=0;
     int numMagico = this->cromosomas.getNumMagico();;
    
     for (int i = 0; i < cromosomas.getTamCuadrado(); i++)
