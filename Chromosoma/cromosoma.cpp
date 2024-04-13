@@ -150,7 +150,7 @@ void cromosoma::mutacionInsersion() {
         os<<std::endl<<"Tamano Cuadrado: "<<crom.tamCuadrado;
         os<<" Numero Magico: "<<crom.numMagico;
         os<<" Tamano Vector: "<<crom.vectorSuma.size()<<std::endl;
-        os<<" Funcion a maximizar o minimizar: "<<2*crom.tamCuadrado+1 <<std::endl;
+        os<<" Funcion a maximizar o minimizar: "<<2*crom.tamCuadrado+2 <<std::endl;
         int indices=0;
 
         for (int i = 0; i < crom.vectorSuma.size(); i+=crom.tamCuadrado)
