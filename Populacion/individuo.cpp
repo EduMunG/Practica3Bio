@@ -149,3 +149,4 @@ int individuo::seleccionTorneoBinario(std::vector<int> &enfrentados, std::vector
 //         torneobinario(miPoblacion.func1(miPoblacion.cromosomas.sumaFilas(),miPoblacion.cromosomas.sumaColumnas(),miPoblacion.cromosomas.sumaDiagonales())
 
 //     }
+

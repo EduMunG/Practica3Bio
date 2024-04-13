@@ -182,7 +182,6 @@ void inicializarPoblacion(std::vector<individuo>& poblacion, int numPoblaciones,
 
 
 
-
 int main() {
     int numPoblaciones, tamCuadrado;
     std::cout << "Ingrese el numero de poblaciones que desea generar: ";
@@ -213,6 +212,8 @@ int main() {
 
     int generacion = 0;
     std::vector<int> numExitos;
+    std::vector<individuo> nuevaPoblacion;
+
     individuo mejorIndividuo;
     int mejorAptitud = 0;
     while (generacion < 10000) {
@@ -229,7 +230,10 @@ int main() {
         numPoblaciones = poblacion.size();
         mutar(poblacion, .8);
         numPoblaciones = poblacion.size();
-        
+
+
+    
+
         numExitos.clear();
         for (int i = 0; i < poblacion.size(); i++) { 
             int nuevaAptitud = poblacion.at(i).func1(poblacion.at(i).getCromosoma().sumaFilas(), poblacion.at(i).getCromosoma().sumaColumnas(), poblacion.at(i).getCromosoma().sumaDiagonales(), poblacion.at(i).getCromosoma().sumaDiagonal_inversa());
