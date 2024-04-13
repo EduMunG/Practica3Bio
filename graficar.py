@@ -14,13 +14,12 @@ def leer_datos(filename):
     return mejores, promedios, peores
 
 def graficar(mejores, promedios, peores):
-    generaciones = list(range(1, len(mejores) + 1))
-    
     plt.figure(figsize=(10, 5))
-    plt.plot(generaciones, mejores, label='Mejores Aptitudes')
-    plt.plot(generaciones, promedios, label='Aptitud Promedio', linestyle='--')
-    plt.plot(generaciones, peores, label='Peores Aptitudes', linestyle=':')
-    
+    plt.plot(mejores, label='Mejores Aptitudes',marker='o',linestyle='-' )
+    plt.plot(promedios, label='Aptitud Promedio',marker='o', linestyle='-')
+    plt.plot(peores, label='Peores Aptitudes',marker='o', linestyle='-')
+
+
     plt.xlabel('Generación')
     plt.ylabel('Aptitud')
     plt.title('Evolución de las Aptitudes a lo Largo de las Generaciones')
