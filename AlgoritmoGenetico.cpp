@@ -1,5 +1,6 @@
 #include "./Populacion/individuo.cpp"
 #include <climits>
+#include <fstream>
 
 bool encontradosec(std::vector<int>& seccion, int num){
 
@@ -167,7 +168,7 @@ void seleccionarPadres(std::vector<individuo>& poblacion, int numPoblaciones) {
 /*         std::cout << "\nPadre " << i <<" seleccionado:" << std::endl;
         std::cout << "Indice: " << indiceGanador  << std::endl;
         std::cout << "Aptitud Ganadora: " << poblacion.at(indiceGanador).getAptitud() << std::endl; */
-        if (  poblacion.at(indiceGanador).getAptitud()>2  )
+        if (  poblacion.at(indiceGanador).getAptitud()>1  )
             nuevosPadres.push_back(poblacion.at(indiceGanador));    
     }
     poblacion=nuevosPadres; // Reemplaza la población antigua con los ganadores
@@ -188,6 +189,29 @@ void inicializarPoblacion(std::vector<individuo>& poblacion, int numPoblaciones,
 }
 
 
+void escribir(std::ofstream& archivo, std::vector<int> mejores, std::vector<int> peores, std::vector<float> promedios){
+    // Escribir las estadísticas en el archivo
+    archivo << "mejores: ";
+    for (int apt : mejores) {
+        archivo << apt << ", ";
+    }
+    archivo << "\n";
+
+    archivo << "promedio: ";
+    for (double apt : promedios) {
+        archivo << apt << ", ";
+    }
+    archivo << "\n";
+
+    archivo << "peores: ";
+    for (int apt : peores) {
+        archivo << apt << ", ";
+    }
+    archivo << "\n";
+
+    archivo.close();  // No olvides cerrar el archivo al terminar
+}
+
 
 
 
@@ -207,13 +231,19 @@ int main() {
         }
         
     } 
-    
+
+    std::ofstream archivo("estadisticas.txt");
+    if (!archivo.is_open())
+    {        
+        std::cerr << "Error al abrir el archivo para escribir las estadísticas." << std::endl;
+    }
     std::cout << "Ingrese el tamano del cuadrado para la poblacion: ";
     std::cin >> tamCuadrado;
 
     std::vector<individuo> poblacion;
     //Inizializamso lapoblacion
     inicializarPoblacion(poblacion, numPoblaciones,tamCuadrado);
+
 
 
     std::cout << std::endl << "-----------------------------------------"<< std::endl;
@@ -224,7 +254,14 @@ int main() {
 
     int generacion = 0;
     int solucion=0;
+    std::vector<int> mejores, peores;
+    std::vector<float> promedio;
     std::vector<int> numExitos;
+    for(individuo& individuo: poblacion){
+        mejores.push_back(individuo.getAptitud());
+        peores.push_back(individuo.getAptitud());
+        promedio.push_back(individuo.getAptitud());
+    }
     individuo* individuoSolucionado= nullptr;
     while (generacion <1000000) {
 
@@ -246,16 +283,23 @@ int main() {
         
         bool solEncontrada=false;
         int mejorAptitud = INT_MIN;// Inicializa con el mínimo posible para encontrar el máximo
+        int peorAptitud= INT_MAX;//Peor aptitud
+        float aptprom=0.0;
         numExitos.clear();
         for(individuo &individuo: poblacion){
             int nuevaAptitud = individuo.func1(individuo.getCromosoma().sumaFilas(), individuo.getCromosoma().sumaColumnas(),individuo.getCromosoma().sumaDiagonales());
             individuo.setAptitud(nuevaAptitud);
+            aptprom+=nuevaAptitud;
+            
+            if (nuevaAptitud > mejorAptitud) { mejorAptitud=nuevaAptitud; }else {peorAptitud=nuevaAptitud;}
 
             if (nuevaAptitud == 2*tamCuadrado+2) {solEncontrada=true;  individuoSolucionado=&individuo;}
-            
-            if (nuevaAptitud> mejorAptitud) {mejorAptitud = nuevaAptitud;}
-
         }
+        aptprom/=poblacion.size();
+
+        mejores.push_back(mejorAptitud);
+        peores.push_back(peorAptitud);
+        promedio.push_back(aptprom);
 
         if (solEncontrada)
         {
@@ -263,14 +307,15 @@ int main() {
             std::cout << "Generación " << generacion + 1 << ": Mejor aptitud = " << mejorAptitud << std::endl;
             std::cout << "Detalle del individuo con la solución:" << std::endl;
             std::cout << *individuoSolucionado;  // Usar el operador sobrecargado para imprimir el individuo
+            escribir(archivo,mejores,peores,promedio);
             return 0;
         }
         
-        std::cout << "Generacion " << generacion + 1 << ": Mejor aptitud = " << mejorAptitud << std::endl << "Tam Poblacion: " << poblacion.size() << std::endl;
+        std::cout << "Generacion " << generacion + 1 << ": Mejor aptitud: " << mejorAptitud<< " Peor Aptitud: "<<peorAptitud << std::endl << "Tam Poblacion: " << poblacion.size() << std::endl;
 
         generacion++;
     }
-
+    archivo.close();
     return 0;
 }
 
