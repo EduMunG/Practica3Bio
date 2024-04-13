@@ -14,7 +14,15 @@ return encontrado;
 }
 
 void mutar(std::vector<individuo> &poblacion, float probabilidadMutacion) {
-     std::cout << std::endl << "-----------------------------------------" << std::endl;
+    
+    if (poblacion.size()<2)
+    {
+        std::cout<<std::endl<<"Poblacion insuficiente para la mutacion"<<std::endl;
+        return;
+    }
+    
+
+    std::cout << std::endl << "-----------------------------------------" << std::endl;
     std::cout << "Mutar con poblacion: " << poblacion.size() << std::endl;
     std::cout << "-----------------------------------------" << std::endl;
 
@@ -156,9 +164,9 @@ void seleccionarPadres(std::vector<individuo>& poblacion, int numPoblaciones) {
     std::vector<int> enfrentados;
     for (int i = 0; i < numPoblaciones / 2; ++i) {
         int indiceGanador = poblacion.at(i).seleccionTorneoBinario(enfrentados, poblacion);
-        std::cout << "\nPadre " << i <<" seleccionado:" << std::endl;
+/*         std::cout << "\nPadre " << i <<" seleccionado:" << std::endl;
         std::cout << "Indice: " << indiceGanador  << std::endl;
-        std::cout << "Aptitud Ganadora: " << poblacion.at(indiceGanador).getAptitud() << std::endl;
+        std::cout << "Aptitud Ganadora: " << poblacion.at(indiceGanador).getAptitud() << std::endl; */
         if (  poblacion.at(indiceGanador).getAptitud()>2  )
             nuevosPadres.push_back(poblacion.at(indiceGanador));    
     }
@@ -218,9 +226,9 @@ int main() {
     int solucion=0;
     std::vector<int> numExitos;
     individuo* individuoSolucionado= nullptr;
-    while (generacion <10000) {
+    while (generacion <1000000) {
 
-        if (numPoblaciones<2)
+        if (poblacion.size()<2)
         {
             std::cout<<"Muy poca poblacion, saliendo del programa"<<std::endl;
             return 0;
@@ -249,7 +257,7 @@ int main() {
 
         }
 
-        if (solEncontrada && individuoSolucionado)
+        if (solEncontrada)
         {
             std::cout << "Función objetivo encontrada!" << std::endl;
             std::cout << "Generación " << generacion + 1 << ": Mejor aptitud = " << mejorAptitud << std::endl;

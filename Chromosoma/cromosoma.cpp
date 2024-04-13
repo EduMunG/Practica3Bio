@@ -229,12 +229,20 @@ void cromosoma::mutacionInsersion() {
             return col;
         }
         //Metodo de suma de diagonales
-        std::vector<int> cromosoma::sumaDiagonales(){
-            std::vector<int> diag(2,0);
-            for (int j = 0; j < vectorSuma.size() ; j+=tamCuadrado+1)
-                diag.at(0)+=vectorSuma.at(j);            
-            for (int i = tamCuadrado; i < vectorSuma.size(); i+=tamCuadrado-1)
-                diag.at(1)+=vectorSuma.at(i);
-            
-        return diag;
+    std::vector<int> cromosoma::sumaDiagonales(){
+        std::vector<int> diag(2,0); // Vector para almacenar las sumas de las dos diagonales
+        
+        // Suma de la diagonal principal
+        for (int j = 0; j < vectorSuma.size(); j += tamCuadrado + 1) {
+            diag.at(0) += vectorSuma.at(j);
         }
+        
+        // Suma de la diagonal secundaria
+        // Iniciar desde el primer elemento de la última columna y avanzar hacia la esquina inferior izquierda
+        for (int i = tamCuadrado - 1; i < vectorSuma.size() - 1; i += tamCuadrado - 1) {
+            diag.at(1) += vectorSuma.at(i);
+            if (i + (tamCuadrado - 1) >= vectorSuma.size() - 1) break; // Prevenir el acceso fuera de los límites
+        }
+        
+        return diag;
+    }

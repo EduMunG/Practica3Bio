@@ -121,8 +121,8 @@ int individuo::seleccionTorneoBinario(std::vector<int> &enfrentados, std::vector
     enfrentados.push_back(indice1);
     enfrentados.push_back(indice2);
 
-    std::cout << "\nEnfrentamientos " << indice1 << " vs " << indice2 ;
-    std::cout << "\nAptitud : " << poblacion.at(indice1).getAptitud() << " vs " << poblacion.at(indice2).getAptitud() ;
+/*     std::cout << "\nEnfrentamientos " << indice1 << " vs " << indice2 ;
+    std::cout << "\nAptitud : " << poblacion.at(indice1).getAptitud() << " vs " << poblacion.at(indice2).getAptitud() ; */
 
     // Comparar las aptitudes de los dos individuos seleccionados
     if (poblacion.at(indice1).getAptitud()  > poblacion.at(indice2).getAptitud()) {
